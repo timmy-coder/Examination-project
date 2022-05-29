@@ -1,0 +1,106 @@
+<link rel="stylesheet" type="text/css" href="css/mycss.css">
+<style>
+    #t{
+        display: block;
+    }
+</style>
+
+<div class="app-main__outer">
+        <div class="app-main__inner">
+            <div class="app-page-title">
+                <div class="page-title-wrapper">
+                    <div class="page-title-heading">
+                        <div>MANAGE COURSE</div>
+                    </div>
+                </div>
+            </div>      
+            <div class='col-md-3 mb-2'>
+                <div class='input-group '>
+                        <!--<input type="text"  placeholder='Search'>-->
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search_text" id="search_text">
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="main-card mb-3 card">
+                    <div class="card-header">Course List
+                    </div>
+                    <div class="table-responsive">
+                    
+                        <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="tableList">
+                            <thead>
+                            <tr>
+                                <th class="text-left pl-4">Course Name</th>
+                                <th class="text-center" width="20%">Status</th>
+                            </tr>
+                            </thead>
+                            <tbody id="output" class='d-none'>
+                            </tbody>
+                            <tbody id="out" >
+                                     <?php 
+                                $selCourse = $conn->query("SELECT * FROM course_tbl ORDER BY cou_id DESC ");
+                                if($selCourse->rowCount() > 0)
+                                {
+                                    while ($selCourseRow = $selCourse->fetch(PDO::FETCH_ASSOC)) { ?>
+                                        <tr>
+                                            <td class="pl-4">
+                                                <?php echo $selCourseRow['cou_name']; ?>
+                                            </td>
+                                            <td class="text-center">
+                                                <a rel="facebox" style="text-decoration: none;" class="btn btn-primary btn-sm" href="facebox_modal/updateCourse.php?id=<?php echo $selCourseRow['cou_id']; ?>" id="updateCourse">Update</a>
+                                             <button type="button" id="deleteCourse" data-id='<?php echo $selCourseRow['cou_id']; ?>'  class="btn btn-danger btn-sm">Delete</button>
+                                            </td>
+                                        </tr>
+
+                                    <?php }
+                                }
+                                else
+                                { ?>
+                                    <tr>
+                                      <td colspan="2">
+                                        <h3 class="p-3">No Course Found</h3>
+                                      </td>
+                                    </tr>
+                                <?php }
+                               ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+      
+        
+</div>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#search_text").keyup(function() {
+            var txt = $(this).val();
+            if(txt != ''){
+                $.ajax({
+                type: 'POST',
+                url: 'query/Coursesearch.php',
+                data:{
+                    name:$("#search_text").val(),
+                },
+                success:function(data){
+                    $("#output").html(data);
+                    $('#output').removeClass('d-none');
+                    $('#out').addClass('d-none');
+                    
+
+                }
+            })
+            }
+            else{
+                $('#out').removeClass('d-none');
+                $('#output').addClass('d-none');
+            }
+
+              
+            
+            
+        });
+    });
+
+</script>
+         
