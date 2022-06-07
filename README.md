@@ -1,7 +1,2 @@
 # Examination-project
-An online examination system use for taking JAMB OR POST TME EXAMINATIONS
-PROGAMMING LANGUAGE USE:
-PHP
-AJAX
-BOOTSTRAP
-SQL DATABSE
+An online examination system using Php, Ajax,Bootstrap and SQl 
